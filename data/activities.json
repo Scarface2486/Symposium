@@ -1,0 +1,38 @@
+[
+  {
+    "id": "act-f15056fb",
+    "user_name": "Symposium Coordinator",
+    "role": "Admin",
+    "action": "Removed sector fgf",
+    "target": "Sector Management",
+    "sector": "fgf",
+    "timestamp": "2026-08-22T17:51:58.088210Z"
+  },
+  {
+    "id": "act-55f0e6ce",
+    "user_name": "Symposium Coordinator",
+    "role": "Admin",
+    "action": "Created new sector: fgf",
+    "target": "Sector Management",
+    "sector": "fgf",
+    "timestamp": "2026-08-22T17:51:49.875618Z"
+  },
+  {
+    "id": "act-3e4a42f1",
+    "user_name": "Symposium Coordinator",
+    "role": "Admin",
+    "action": "Uploaded and replaced Symposium Brochure",
+    "target": "XENO 2K26",
+    "sector": "Resources",
+    "timestamp": "2026-08-22T17:34:54.510351Z"
+  },
+  {
+    "id": "act-55b31ec2",
+    "user_name": "Symposium Coordinator",
+    "role": "Admin",
+    "action": "Updated symposium settings and configuration",
+    "target": "System Settings",
+    "sector": "Settings",
+    "timestamp": "2026-08-22T17:34:12.100881Z"
+  }
+]
