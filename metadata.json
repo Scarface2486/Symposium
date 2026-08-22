@@ -1,0 +1,7 @@
+{
+  "name": "Symposium – Symposium Coordinator Portal",
+  "description": "Symposium Coordinator Management Portal for Sir Issac Newton College of Engineering and Technology to manage coordinators, sectors, works, documents, and resources.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
