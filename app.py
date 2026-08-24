@@ -1,16 +1,18 @@
 """
-Symposium – Symposium Coordinator Management Portal
+SympoFlow – Symposium Coordinator Management Portal
 Sir Issac Newton College of Engineering and Technology
 Flask Backend Application
 """
 
 import os
 import json
+import hashlib
 import uuid
 from datetime import datetime
+from functools import wraps
 from flask import (
-    Flask, render_template, request, jsonify,
-    send_from_directory
+    Flask, render_template, request, jsonify, session,
+    redirect, url_for, send_from_directory, flash
 )
 from werkzeug.utils import secure_filename
 
@@ -23,7 +25,7 @@ os.makedirs(DATA_DIR, exist_ok=True)
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
-app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'sincet-Symposium-secret-key-2026-prod')
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'sincet-sympoflow-secret-key-2026-prod')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB max
 
@@ -45,6 +47,8 @@ def save_json(filename, data):
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
+def hash_password(password):
+    return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -64,6 +68,39 @@ def log_activity(user_name, role, action, target, sector="General"):
     # Keep last 50 activities
     save_json('activities.json', activities[:50])
 
+# ----------------- Decorators -----------------
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            if request.is_json or request.path.startswith('/api/'):
+                return jsonify({"error": "Authentication required"}), 401
+            return redirect(url_for('login_page'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            return jsonify({"error": "Authentication required"}), 401
+        if session.get('role') != 'Admin':
+            return jsonify({"error": "Unauthorized. Admin privileges required."}), 403
+        return f(*args, **kwargs)
+    return decorated_function
+
+def staff_or_admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            return jsonify({"error": "Authentication required"}), 401
+        role = session.get('role')
+        if role not in ['Admin', 'Staff Coordinator']:
+            return jsonify({"error": "Unauthorized. Staff or Admin privileges required."}), 403
+        return f(*args, **kwargs)
+    return decorated_function
+
 # ----------------- Page Routes -----------------
 
 @app.route('/')
@@ -82,50 +119,95 @@ def serve_upload(filename):
 
 @app.route('/api/auth/me', methods=['GET'])
 def get_current_user():
-    # Authentication is intentionally disabled for this project.
-    return jsonify({
-        "authenticated": True,
-        "user": {
-            "id": "public-user",
-            "coordinator_id": None,
-            "name": "Symposium Coordinator",
-            "email": "",
-            "role": "Admin",
-            "department": "",
-            "sector_id": "all"
-        }
-    })
+    if 'user_id' in session:
+        return jsonify({
+            "authenticated": True,
+            "user": {
+                "id": session.get('user_id'),
+                "coordinator_id": session.get('coordinator_id'),
+                "name": session.get('name'),
+                "email": session.get('email'),
+                "role": session.get('role'),
+                "department": session.get('department'),
+                "sector_id": session.get('sector_id')
+            }
+        })
+    return jsonify({"authenticated": False, "user": None})
 
 @app.route('/api/auth/login', methods=['POST'])
 def login():
-    # Authentication is intentionally disabled.
+    data = request.get_json() or {}
+    email = data.get('email', '').strip().lower()
+    password = data.get('password', '').strip()
+
+    if not email or not password:
+        return jsonify({"error": "Email and password are required"}), 400
+
+    users = load_json('users.json', [])
+    password_hash = hash_password(password)
+
+    user = next((u for u in users if u.get('email', '').lower() == email and u.get('password_hash') == password_hash), None)
+
+    if not user:
+        return jsonify({"error": "Invalid email or password"}), 401
+
+    session['user_id'] = user['id']
+    session['coordinator_id'] = user.get('coordinator_id')
+    session['name'] = user['name']
+    session['email'] = user['email']
+    session['role'] = user['role']
+    session['department'] = user.get('department', '')
+    session['sector_id'] = user.get('sector_id', '')
+
+    log_activity(user['name'], user['role'], "Logged into SympoFlow", "Portal Session", user.get('role'))
+
     return jsonify({
         "success": True,
-        "message": "Authentication is disabled. The portal is open.",
+        "message": f"Welcome back, {user['name']}!",
         "user": {
-            "id": "public-user",
-            "coordinator_id": None,
-            "name": "Symposium Coordinator",
-            "email": "",
-            "role": "Admin",
-            "department": "",
-            "sector_id": "all"
+            "id": user['id'],
+            "coordinator_id": user.get('coordinator_id'),
+            "name": user['name'],
+            "email": user['email'],
+            "role": user['role'],
+            "department": user.get('department'),
+            "sector_id": user.get('sector_id')
         }
     })
 
-
 @app.route('/api/auth/logout', methods=['POST'])
 def logout():
-    return jsonify({"success": True, "message": "Authentication is disabled."})
-
+    name = session.get('name', 'User')
+    role = session.get('role', 'User')
+    session.clear()
+    return jsonify({"success": True, "message": "Logged out successfully"})
 
 @app.route('/api/auth/change-password', methods=['POST'])
+@login_required
 def change_password():
-    return jsonify({
-        "success": True,
-        "message": "Password management is disabled because authentication is disabled."
-    })
+    data = request.get_json() or {}
+    old_password = data.get('old_password', '').strip()
+    new_password = data.get('new_password', '').strip()
 
+    if not old_password or not new_password:
+        return jsonify({"error": "Current and new password are required"}), 400
+
+    if len(new_password) < 6:
+        return jsonify({"error": "New password must be at least 6 characters long"}), 400
+
+    users = load_json('users.json', [])
+    user_id = session.get('user_id')
+    user = next((u for u in users if u['id'] == user_id), None)
+
+    if not user or user.get('password_hash') != hash_password(old_password):
+        return jsonify({"error": "Current password is incorrect"}), 400
+
+    user['password_hash'] = hash_password(new_password)
+    user.pop('plain_hint', None)
+    save_json('users.json', users)
+
+    log_activity(session.get('name'), session.get('role'), "Changed password", "Account Security")
+    return jsonify({"success": True, "message": "Password updated successfully"})
 
 # ----------------- Dashboard & Stats API -----------------
 
@@ -201,6 +283,7 @@ def get_coordinators():
     return jsonify(active)
 
 @app.route('/api/coordinators', methods=['POST'])
+@admin_required
 def add_coordinator():
     data = request.get_json() or {}
     name = data.get('name', '').strip()
@@ -268,11 +351,12 @@ def add_coordinator():
         })
         save_json('users.json', users)
 
-    log_activity('Symposium Coordinator', "Admin", f"Added coordinator {name}", f"Role: {role}", sector_name)
+    log_activity(session.get('name', 'Admin'), "Admin", f"Added coordinator {name}", f"Role: {role}", sector_name)
 
     return jsonify({"success": True, "coordinator": new_coord, "message": "Coordinator added successfully"})
 
 @app.route('/api/coordinators/<coord_id>', methods=['PUT'])
+@admin_required
 def update_coordinator(coord_id):
     data = request.get_json() or {}
     coordinators = load_json('coordinators.json', [])
@@ -313,11 +397,12 @@ def update_coordinator(coord_id):
         user['sector_id'] = coord['sector_id']
         save_json('users.json', users)
 
-    log_activity('Symposium Coordinator', "Admin", f"Updated coordinator details for {coord['name']}", f"Role: {coord['role']}", coord['sector'])
+    log_activity(session.get('name', 'Admin'), "Admin", f"Updated coordinator details for {coord['name']}", f"Role: {coord['role']}", coord['sector'])
 
     return jsonify({"success": True, "coordinator": coord, "message": "Coordinator updated successfully"})
 
 @app.route('/api/coordinators/<coord_id>', methods=['DELETE'])
+@admin_required
 def remove_coordinator(coord_id):
     coordinators = load_json('coordinators.json', [])
     coord = next((c for c in coordinators if c['id'] == coord_id), None)
@@ -330,7 +415,7 @@ def remove_coordinator(coord_id):
     coord['removed_at'] = datetime.utcnow().isoformat() + "Z"
     save_json('coordinators.json', coordinators)
 
-    log_activity('Symposium Coordinator', "Admin", f"Removed coordinator {coord['name']}", f"Role: {coord['role']}", coord.get('sector'))
+    log_activity(session.get('name', 'Admin'), "Admin", f"Removed coordinator {coord['name']}", f"Role: {coord['role']}", coord.get('sector'))
 
     return jsonify({"success": True, "message": f"Coordinator {coord['name']} has been removed safely."})
 
@@ -400,6 +485,7 @@ def get_sector_detail(sector_id):
     })
 
 @app.route('/api/sectors', methods=['POST'])
+@admin_required
 def add_sector():
     data = request.get_json() or {}
     name = data.get('name', '').strip()
@@ -438,11 +524,12 @@ def add_sector():
     sectors.append(new_sec)
     save_json('sectors.json', sectors)
 
-    log_activity('Symposium Coordinator', "Admin", f"Created new sector: {name}", "Sector Management", name)
+    log_activity(session.get('name', 'Admin'), "Admin", f"Created new sector: {name}", "Sector Management", name)
 
     return jsonify({"success": True, "sector": new_sec, "message": "Sector added successfully"})
 
 @app.route('/api/sectors/<sector_id>', methods=['PUT'])
+@admin_required
 def update_sector(sector_id):
     data = request.get_json() or {}
     sectors = load_json('sectors.json', [])
@@ -473,11 +560,12 @@ def update_sector(sector_id):
 
     save_json('sectors.json', sectors)
 
-    log_activity('Symposium Coordinator', "Admin", f"Updated sector {sec['name']}", "Sector Management", sec['name'])
+    log_activity(session.get('name', 'Admin'), "Admin", f"Updated sector {sec['name']}", "Sector Management", sec['name'])
 
     return jsonify({"success": True, "sector": sec, "message": "Sector updated successfully"})
 
 @app.route('/api/sectors/<sector_id>', methods=['DELETE'])
+@admin_required
 def delete_sector(sector_id):
     sectors = load_json('sectors.json', [])
     sec = next((s for s in sectors if s['id'] == sector_id), None)
@@ -488,7 +576,7 @@ def delete_sector(sector_id):
     sectors = [s for s in sectors if s['id'] != sector_id]
     save_json('sectors.json', sectors)
 
-    log_activity('Symposium Coordinator', "Admin", f"Removed sector {sec['name']}", "Sector Management", sec['name'])
+    log_activity(session.get('name', 'Admin'), "Admin", f"Removed sector {sec['name']}", "Sector Management", sec['name'])
 
     return jsonify({"success": True, "message": f"Sector {sec['name']} deleted successfully"})
 
@@ -517,14 +605,24 @@ def get_works():
     return jsonify(filtered)
 
 @app.route('/api/works/my-works', methods=['GET'])
+@login_required
 def get_my_works():
-    # Authentication is disabled, so there is no individual user context.
-    # Return all works for compatibility with the existing frontend.
     works = load_json('works.json', [])
-    works.sort(key=lambda x: x.get('deadline', '9999-12-31'))
-    return jsonify(works)
+    coord_id = session.get('coordinator_id')
+    user_name = session.get('name', '').lower()
+    user_email = session.get('email', '').lower()
+
+    # Find works where user is assigned
+    my_works = [
+        w for w in works
+        if (coord_id and w.get('assigned_to_id') == coord_id) or
+           (w.get('assigned_to_name', '').lower() == user_name)
+    ]
+    my_works.sort(key=lambda x: x.get('deadline', '9999-12-31'))
+    return jsonify(my_works)
 
 @app.route('/api/works', methods=['POST'])
+@staff_or_admin_required
 def add_work():
     data = request.get_json() or {}
     title = data.get('title', '').strip()
@@ -564,7 +662,7 @@ def add_work():
         "assigned_to_id": assigned_to_id,
         "assigned_to_name": coord['name'],
         "assigned_to_role": coord.get('role', 'Student Coordinator'),
-        "created_by": "Symposium Coordinator",
+        "created_by": session.get('name', 'Coordinator'),
         "start_date": start_date,
         "deadline": deadline,
         "priority": priority,
@@ -579,8 +677,8 @@ def add_work():
     save_json('works.json', works)
 
     log_activity(
-        'Symposium Coordinator',
-        'Admin',
+        session.get('name', 'User'),
+        session.get('role', 'Staff'),
         f"Assigned work '{title}' to {coord['name']}",
         f"Priority: {priority} | Due: {deadline}",
         sec['name']
@@ -589,6 +687,7 @@ def add_work():
     return jsonify({"success": True, "work": new_work, "message": "Work created and assigned successfully"})
 
 @app.route('/api/works/<work_id>', methods=['PUT'])
+@login_required
 def update_work(work_id):
     data = request.get_json() or {}
     works = load_json('works.json', [])
@@ -596,6 +695,25 @@ def update_work(work_id):
 
     if not work:
         return jsonify({"error": "Work task not found"}), 404
+
+    user_role = session.get('role')
+    user_coord_id = session.get('coordinator_id')
+
+    # Student coordinators can only update status and completion notes for their own tasks
+    if user_role == 'Student Coordinator':
+        if work.get('assigned_to_id') != user_coord_id and work.get('assigned_to_name') != session.get('name'):
+            return jsonify({"error": "You can only update works assigned to you"}), 403
+        
+        old_status = work.get('status')
+        new_status = data.get('status', old_status)
+        work['status'] = new_status
+        if 'completion_notes' in data:
+            work['completion_notes'] = data.get('completion_notes', '')
+        work['updated_at'] = datetime.utcnow().isoformat() + "Z"
+        save_json('works.json', works)
+
+        log_activity(session.get('name'), user_role, f"Updated status to {new_status} on", work['title'], work.get('sector_name'))
+        return jsonify({"success": True, "work": work, "message": "Status updated successfully"})
 
     # Staff or Admin can edit full work details
     coordinators = load_json('coordinators.json', [])
@@ -626,11 +744,12 @@ def update_work(work_id):
 
     save_json('works.json', works)
 
-    log_activity('Symposium Coordinator', 'Admin', f"Updated work '{work['title']}'", f"Assigned: {work['assigned_to_name']}", work.get('sector_name'))
+    log_activity(session.get('name'), user_role, f"Updated work '{work['title']}'", f"Assigned: {work['assigned_to_name']}", work.get('sector_name'))
 
     return jsonify({"success": True, "work": work, "message": "Work updated successfully"})
 
 @app.route('/api/works/<work_id>/status', methods=['PATCH', 'POST'])
+@login_required
 def quick_status_update(work_id):
     data = request.get_json() or {}
     new_status = data.get('status')
@@ -651,11 +770,12 @@ def quick_status_update(work_id):
     work['updated_at'] = datetime.utcnow().isoformat() + "Z"
     save_json('works.json', works)
 
-    log_activity('Symposium Coordinator', 'Admin', f"Marked as {new_status}:", work['title'], work.get('sector_name'))
+    log_activity(session.get('name'), session.get('role'), f"Marked as {new_status}:", work['title'], work.get('sector_name'))
 
     return jsonify({"success": True, "work": work, "message": f"Status changed to {new_status}"})
 
 @app.route('/api/works/<work_id>', methods=['DELETE'])
+@staff_or_admin_required
 def delete_work(work_id):
     works = load_json('works.json', [])
     work = next((w for w in works if w['id'] == work_id), None)
@@ -666,7 +786,7 @@ def delete_work(work_id):
     works = [w for w in works if w['id'] != work_id]
     save_json('works.json', works)
 
-    log_activity('Symposium Coordinator', 'Admin', f"Deleted work:", work['title'], work.get('sector_name'))
+    log_activity(session.get('name'), session.get('role'), f"Deleted work:", work['title'], work.get('sector_name'))
 
     return jsonify({"success": True, "message": f"Work '{work['title']}' removed successfully"})
 
@@ -678,6 +798,7 @@ def get_resources():
     return jsonify(resources)
 
 @app.route('/api/resources', methods=['POST'])
+@admin_required
 def add_resource():
     title = request.form.get('title', '').strip()
     description = request.form.get('description', '').strip()
@@ -715,7 +836,7 @@ def add_resource():
         "external_url": external_url,
         "is_brochure": is_brochure,
         "size": file_size,
-        "uploaded_by": 'Symposium Coordinator',
+        "uploaded_by": session.get('name', 'Admin'),
         "created_at": datetime.utcnow().isoformat() + "Z"
     }
 
@@ -732,11 +853,12 @@ def add_resource():
     resources.insert(0, new_res)
     save_json('resources.json', resources)
 
-    log_activity('Symposium Coordinator', "Admin", f"Added resource: {title}", f"Type: {res_type}", "Resources")
+    log_activity(session.get('name', 'Admin'), "Admin", f"Added resource: {title}", f"Type: {res_type}", "Resources")
 
     return jsonify({"success": True, "resource": new_res, "message": "Resource added successfully"})
 
 @app.route('/api/resources/brochure', methods=['POST'])
+@admin_required
 def upload_brochure():
     title = request.form.get('title', 'XENO \'26 Official Event Brochure & Schedule').strip()
     
@@ -776,19 +898,20 @@ def upload_brochure():
         "type": "PDF Document",
         "file_url": file_url,
         "external_url": "",
-        "is_brochure": True,
+        "is_brochure": true,
         "size": file_size,
-        "uploaded_by": 'Symposium Coordinator',
+        "uploaded_by": session.get('name', 'Admin'),
         "created_at": datetime.utcnow().isoformat() + "Z"
     }
     resources.insert(0, brochure_res)
     save_json('resources.json', resources)
 
-    log_activity('Symposium Coordinator', "Admin", "Uploaded and replaced Symposium Brochure", title, "Resources")
+    log_activity(session.get('name', 'Admin'), "Admin", "Uploaded and replaced Symposium Brochure", title, "Resources")
 
     return jsonify({"success": True, "brochure": brochure_res, "message": "Symposium brochure uploaded successfully"})
 
 @app.route('/api/resources/<res_id>', methods=['DELETE'])
+@admin_required
 def delete_resource(res_id):
     resources = load_json('resources.json', [])
     res = next((r for r in resources if r['id'] == res_id), None)
@@ -799,7 +922,7 @@ def delete_resource(res_id):
     resources = [r for r in resources if r['id'] != res_id]
     save_json('resources.json', resources)
 
-    log_activity('Symposium Coordinator', "Admin", f"Deleted resource: {res['title']}", f"Type: {res.get('type')}", "Resources")
+    log_activity(session.get('name', 'Admin'), "Admin", f"Deleted resource: {res['title']}", f"Type: {res.get('type')}", "Resources")
 
     return jsonify({"success": True, "message": f"Resource '{res['title']}' deleted successfully"})
 
@@ -811,6 +934,7 @@ def get_settings():
     return jsonify(settings)
 
 @app.route('/api/settings', methods=['PUT', 'POST'])
+@admin_required
 def update_settings():
     data = request.get_json() or {}
     settings = load_json('settings.json', {})
@@ -819,11 +943,12 @@ def update_settings():
         settings[k] = v
 
     save_json('settings.json', settings)
-    log_activity('Symposium Coordinator', "Admin", "Updated symposium settings and configuration", "System Settings", "Settings")
+    log_activity(session.get('name', 'Admin'), "Admin", "Updated symposium settings and configuration", "System Settings", "Settings")
 
     return jsonify({"success": True, "settings": settings, "message": "Settings updated successfully"})
 
 @app.route('/api/settings/registration', methods=['POST', 'PUT'])
+@admin_required
 def update_registration_link():
     data = request.get_json() or {}
     url = data.get('registration_url', '').strip()
@@ -837,7 +962,7 @@ def update_registration_link():
         settings['registration_deadline'] = deadline
     save_json('settings.json', settings)
 
-    log_activity('Symposium Coordinator', "Admin", f"Updated Registration URL ({status})", url or "None", "Registration")
+    log_activity(session.get('name', 'Admin'), "Admin", f"Updated Registration URL ({status})", url or "None", "Registration")
 
     return jsonify({"success": True, "settings": settings, "message": "Registration link updated successfully"})
 
@@ -845,5 +970,5 @@ def update_registration_link():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 3000))
-    print(f"Starting Symposium Flask Application on http://0.0.0.0:{port}")
+    print(f"Starting SympoFlow Flask Application on http://0.0.0.0:{port}")
     app.run(host='0.0.0.0', port=port, debug=False)

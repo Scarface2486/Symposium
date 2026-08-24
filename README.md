@@ -1,4 +1,4 @@
-# Symposium – Symposium Coordinator Management Portal
+# SympoFlow – Symposium Coordinator Management Portal
 
 **Institution:** Sir Issac Newton College of Engineering and Technology  
 **Symposium:** XENO 2026 – National Level Technical Symposium  
@@ -8,7 +8,7 @@
 
 ## 🌟 Executive Summary
 
-**Symposium** is a centralized, production-grade symposium management system engineered for **Sir Issac Newton College of Engineering and Technology**. It streamlines the coordination of administrative conveners, faculty staff in-charges, student sector leads, tasks, schedules, contact channels, and official symposium publications.
+**SympoFlow** is a centralized, production-grade symposium management system engineered for **Sir Issac Newton College of Engineering and Technology**. It streamlines the coordination of administrative conveners, faculty staff in-charges, student sector leads, tasks, schedules, contact channels, and official symposium publications.
 
 ---
 

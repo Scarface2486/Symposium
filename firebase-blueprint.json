@@ -1,0 +1,101 @@
+{
+  "entities": {
+    "Coordinator": {
+      "collection": "coordinators",
+      "fields": {
+        "id": { "type": "string", "description": "Coordinator unique ID" },
+        "name": { "type": "string", "description": "Full name of the coordinator" },
+        "role": { "type": "string", "description": "Role: Admin, Staff Coordinator, Student Coordinator" },
+        "department": { "type": "string", "description": "Academic Department" },
+        "id_number": { "type": "string", "description": "Staff ID or Register Number" },
+        "phone": { "type": "string", "description": "Phone number" },
+        "email": { "type": "string", "description": "Email address" },
+        "sector": { "type": "string", "description": "Assigned sector name" },
+        "sector_id": { "type": "string", "description": "Assigned sector ID" },
+        "status": { "type": "string", "description": "Status: Active or Removed" },
+        "avatar_color": { "type": "string", "description": "Hex color code for UI avatar" },
+        "created_at": { "type": "string", "description": "ISO timestamp" }
+      }
+    },
+    "Sector": {
+      "collection": "sectors",
+      "fields": {
+        "id": { "type": "string", "description": "Sector unique ID" },
+        "name": { "type": "string", "description": "Sector name" },
+        "slug": { "type": "string", "description": "URL/tag slug" },
+        "description": { "type": "string", "description": "Sector responsibility description" },
+        "color": { "type": "string", "description": "Theme color" },
+        "icon": { "type": "string", "description": "Lucide icon identifier" },
+        "staff_coordinator_id": { "type": "string", "description": "ID of leading staff coordinator" },
+        "staff_coordinator_name": { "type": "string", "description": "Name of leading staff coordinator" },
+        "created_at": { "type": "string", "description": "ISO timestamp" }
+      }
+    },
+    "Work": {
+      "collection": "works",
+      "fields": {
+        "id": { "type": "string", "description": "Task/work unique ID" },
+        "title": { "type": "string", "description": "Task title" },
+        "description": { "type": "string", "description": "Task details" },
+        "sector_id": { "type": "string", "description": "Sector ID" },
+        "sector_name": { "type": "string", "description": "Sector name" },
+        "assigned_to_id": { "type": "string", "description": "Coordinator ID assigned to" },
+        "assigned_to_name": { "type": "string", "description": "Coordinator name assigned to" },
+        "assigned_to_role": { "type": "string", "description": "Role of assigned coordinator" },
+        "created_by": { "type": "string", "description": "Author of the task" },
+        "start_date": { "type": "string", "description": "Start date" },
+        "deadline": { "type": "string", "description": "Deadline date" },
+        "priority": { "type": "string", "description": "Priority: Low, Medium, High, Urgent" },
+        "status": { "type": "string", "description": "Status: Pending, In Progress, Completed" },
+        "completion_notes": { "type": "string", "description": "Notes or progress update" },
+        "created_at": { "type": "string", "description": "ISO timestamp" },
+        "updated_at": { "type": "string", "description": "ISO timestamp" }
+      }
+    },
+    "Resource": {
+      "collection": "resources",
+      "fields": {
+        "id": { "type": "string", "description": "Resource unique ID" },
+        "title": { "type": "string", "description": "Document/resource title" },
+        "description": { "type": "string", "description": "Resource description" },
+        "type": { "type": "string", "description": "Resource type (PDF Document, Google Form, etc.)" },
+        "file_url": { "type": "string", "description": "Upload file path or URL" },
+        "external_url": { "type": "string", "description": "External URL if applicable" },
+        "is_brochure": { "type": "boolean", "description": "Whether this is marked as the official brochure" },
+        "size": { "type": "string", "description": "File size or descriptor" },
+        "uploaded_by": { "type": "string", "description": "Uploader name" },
+        "created_at": { "type": "string", "description": "ISO timestamp" }
+      }
+    },
+    "Setting": {
+      "collection": "settings",
+      "fields": {
+        "college_name": { "type": "string", "description": "College name" },
+        "college_short": { "type": "string", "description": "Short name" },
+        "symposium_name": { "type": "string", "description": "Symposium name" },
+        "symposium_theme": { "type": "string", "description": "Theme/Department tagline" },
+        "event_date": { "type": "string", "description": "Symposium event date" },
+        "venue": { "type": "string", "description": "Event venue" },
+        "registration_url": { "type": "string", "description": "Google Form or registration URL" },
+        "registration_status": { "type": "string", "description": "Registration status (Open/Closed)" },
+        "registration_deadline": { "type": "string", "description": "Deadline date" },
+        "contact_email": { "type": "string", "description": "Official email" },
+        "emergency_helpline": { "type": "string", "description": "Helpline phone number" },
+        "brochure_title": { "type": "string", "description": "Brochure title" },
+        "brochure_file": { "type": "string", "description": "Brochure file path" }
+      }
+    },
+    "Activity": {
+      "collection": "activities",
+      "fields": {
+        "id": { "type": "string", "description": "Activity log unique ID" },
+        "user_name": { "type": "string", "description": "Actor name" },
+        "role": { "type": "string", "description": "Actor role" },
+        "action": { "type": "string", "description": "Action performed" },
+        "target": { "type": "string", "description": "Target item or detail" },
+        "sector": { "type": "string", "description": "Associated sector" },
+        "timestamp": { "type": "string", "description": "ISO timestamp" }
+      }
+    }
+  }
+}
