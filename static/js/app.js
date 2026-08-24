@@ -1,5 +1,5 @@
 /**
- * Symposium - Main Application Controller & Utilities
+ * SympoFlow - Main Application Controller & Utilities
  */
 
 const App = {
@@ -72,50 +72,22 @@ const App = {
   updatePageHeader(viewId) {
     const titleEl = document.getElementById('page-title');
     const descEl = document.getElementById('page-subtitle');
-    if (!titleEl || !descEl) return;
+    if (descEl) descEl.textContent = '';
+    if (!titleEl) return;
 
     const headers = {
-      'dashboard-view': {
-        title: 'Executive Dashboard',
-        desc: 'Real-time overview of symposium coordination metrics and active responsibilities.'
-      },
-      'coordinators-view': {
-        title: 'Coordinator Management',
-        desc: 'Admins, Staff In-Charges, and Student Coordinators directory and assignments.'
-      },
-      'sectors-view': {
-        title: 'Sectors & Committees',
-        desc: 'Organized sectors, associated coordinators, and work progress tracking.'
-      },
-      'sector-detail-view': {
-        title: 'Sector Overview',
-        desc: 'Detailed view of committee leadership, members, and assigned works.'
-      },
-      'works-view': {
-        title: 'All Symposium Works',
-        desc: 'Centralized work master list, priority scheduling, and responsibility tracking.'
-      },
-      'my-works-view': {
-        title: 'My Assigned Works',
-        desc: 'Your active tasks, deadlines, progress status, and completion notes.'
-      },
-      'contacts-view': {
-        title: 'Contact Directory',
-        desc: 'Quick communication directory for instant calling, emailing, and messaging.'
-      },
-      'resources-view': {
-        title: 'Documents & Links',
-        desc: 'Official event brochure, registration links, schedules, and Google Forms.'
-      },
-      'settings-view': {
-        title: 'Portal Settings',
-        desc: 'Symposium configuration, venue details, emergency helpline, and account security.'
-      }
+      'dashboard-view': 'Executive Dashboard',
+      'coordinators-view': 'Coordinator Management',
+      'sectors-view': 'Sectors & Committees',
+      'sector-detail-view': 'Sector Overview',
+      'works-view': 'All Symposium Works',
+      'my-works-view': 'My Assigned Works',
+      'contacts-view': 'Contact Directory',
+      'resources-view': 'Documents & Links',
+      'settings-view': 'Portal Settings'
     };
 
-    const info = headers[viewId] || { title: 'Symposium Portal', desc: 'Symposium Management' };
-    titleEl.textContent = info.title;
-    descEl.textContent = info.desc;
+    titleEl.textContent = headers[viewId] || 'Symposium Portal';
   },
 
   refreshCurrentView() {
@@ -284,15 +256,6 @@ const Toast = {
     }, duration);
   }
 };
-
-// Fast Demo Login Autofill Helper
-function fillDemoLogin(email, password) {
-  const emailInput = document.getElementById('login-email');
-  const pwdInput = document.getElementById('login-password');
-  if (emailInput) emailInput.value = email;
-  if (pwdInput) pwdInput.value = password;
-  Toast.show(`Autofilled credentials for: ${email}`, 'info');
-}
 
 // Global Launch on DOM Content Loaded
 document.addEventListener('DOMContentLoaded', () => {

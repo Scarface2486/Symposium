@@ -1,5 +1,5 @@
 /**
- * Symposium - Contact Directory Module
+ * SympoFlow - Contact Directory Module
  */
 
 const Contacts = {

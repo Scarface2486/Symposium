@@ -1,5 +1,5 @@
 /**
- * Symposium - Dashboard Module
+ * SympoFlow - Dashboard Module
  */
 
 const Dashboard = {

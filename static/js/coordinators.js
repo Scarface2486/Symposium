@@ -1,5 +1,5 @@
 /**
- * Symposium - Coordinator Management Module
+ * SympoFlow - Coordinator Management Module
  */
 
 const Coordinators = {

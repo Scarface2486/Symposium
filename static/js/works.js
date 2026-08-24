@@ -1,5 +1,5 @@
 /**
- * Symposium - Work & Task Management Module
+ * SympoFlow - Work & Task Management Module
  */
 
 const Works = {

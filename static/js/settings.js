@@ -1,5 +1,5 @@
 /**
- * Symposium - Settings & Configuration Module
+ * SympoFlow - Settings & Configuration Module
  */
 
 const Settings = {
@@ -67,35 +67,6 @@ const Settings = {
       }
     } catch (err) {
       Toast.show('Network error while saving settings', 'error');
-    }
-  },
-
-  async handleChangePassword(e) {
-    e.preventDefault();
-    const old_password = document.getElementById('pwd-old').value;
-    const new_password = document.getElementById('pwd-new').value;
-    const confirm_password = document.getElementById('pwd-confirm').value;
-
-    if (new_password !== confirm_password) {
-      Toast.show('New passwords do not match', 'error');
-      return;
-    }
-
-    try {
-      const res = await fetch('/api/auth/change-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ old_password, new_password })
-      });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        Toast.show(data.message, 'success');
-        document.getElementById('password-form').reset();
-      } else {
-        Toast.show(data.error || 'Failed to update password', 'error');
-      }
-    } catch (err) {
-      Toast.show('Error updating password', 'error');
     }
   }
 };

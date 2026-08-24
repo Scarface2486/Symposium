@@ -1,5 +1,5 @@
 /**
- * Symposium - Resources & Documents Module
+ * SympoFlow - Resources & Documents Module
  */
 
 const Resources = {
@@ -36,8 +36,8 @@ const Resources = {
 
   renderBrochureCard() {
     const brochure = this.list.find(r => r.is_brochure) || {
-      title: this.settings.brochure_title || "XENO '26 Official Event Brochure & Schedule",
-      file_url: this.settings.brochure_file || "/uploads/symposium_brochure_2026.pdf",
+      title: this.settings.brochure_title || "XENO 2K26 Official Event Brochure & Poster",
+      file_url: this.settings.brochure_file || "/uploads/xeno_brochure_2026.jpg",
       size: "2.4 MB"
     };
 
@@ -47,20 +47,21 @@ const Resources = {
     const previewBtn = document.getElementById('brochure-preview-btn');
 
     if (titleEl) titleEl.textContent = brochure.title;
-    if (sizeEl) sizeEl.textContent = `PDF Document • ${brochure.size || 'Official File'}`;
+    if (sizeEl) sizeEl.textContent = `Official Poster & Brochure • ${brochure.size || 'HD Image'}`;
 
     if (downloadBtn) {
-      downloadBtn.href = brochure.file_url || '#';
-      downloadBtn.setAttribute('download', 'symposium_brochure_2026.pdf');
+      downloadBtn.href = brochure.file_url || '/uploads/xeno_brochure_2026.jpg';
+      downloadBtn.setAttribute('download', 'XENO_2K26_Brochure.jpg');
+      downloadBtn.target = '_blank';
     }
 
     if (previewBtn) {
-      previewBtn.onclick = () => this.previewFile(brochure.file_url, brochure.title);
+      previewBtn.onclick = () => this.previewFile(brochure.file_url || '/uploads/xeno_brochure_2026.jpg', brochure.title);
     }
   },
 
   renderRegistrationSection() {
-    const regUrl = this.settings.registration_url || "https://registration.sincet.edu.in/XENO26";
+    const regUrl = this.settings.registration_url || "https://registration.sincet.edu.in/xeno26";
     const status = this.settings.registration_status || "Open";
     const deadline = this.settings.registration_deadline || "2026-08-26";
 
@@ -143,8 +144,20 @@ const Resources = {
   previewFile(url, title) {
     if (!url) return;
     document.getElementById('preview-modal-title').textContent = title;
-    const iframe = document.getElementById('preview-iframe');
-    if (iframe) iframe.src = url;
+    const container = document.getElementById('preview-container');
+    const isImage = url.match(/\.(jpeg|jpg|png|webp|gif)(\?.*)?$/i);
+
+    if (container) {
+      if (isImage) {
+        container.innerHTML = `
+          <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #0f172a; overflow: auto; padding: 16px;">
+            <img src="${url}" alt="${App.escapeHtml(title)}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);" />
+          </div>
+        `;
+      } else {
+        container.innerHTML = `<iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>`;
+      }
+    }
     App.openModal('file-preview-modal');
   },
 

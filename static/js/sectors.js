@@ -1,5 +1,5 @@
 /**
- * Symposium - Sector Management Module
+ * SympoFlow - Sector Management Module
  */
 
 const Sectors = {

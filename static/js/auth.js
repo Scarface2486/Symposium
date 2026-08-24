@@ -1,5 +1,5 @@
 /**
- * Symposium - Portal Access & State Management (Open Access Mode - No Auth / Role restrictions)
+ * SympoFlow - Open Access Mode (No Authentication Required)
  */
 
 const Auth = {
@@ -13,28 +13,15 @@ const Auth = {
   },
 
   async init() {
-    try {
-      const res = await fetch('/api/auth/me');
-      const data = await res.json();
-      if (data && data.user) {
-        this.currentUser = data.user;
-      }
-    } catch (err) {
-      console.log('Open access portal initialized');
-    }
     this.renderUserUI();
-    this.hideLoginScreen();
   },
 
-  async login(email, password) {
-    this.renderUserUI();
-    this.hideLoginScreen();
-    Toast.show('Welcome to Symposium Portal', 'success');
-    return { success: true };
+  login() {
+    return Promise.resolve({ success: true });
   },
 
-  async logout() {
-    Toast.show('Open access mode active - authentication not required', 'info');
+  logout() {
+    return Promise.resolve({ success: true });
   },
 
   isAdmin() {
@@ -50,22 +37,7 @@ const Auth = {
   },
 
   renderUserUI() {
-    // Update Sidebar User Profile
-    const avatarEl = document.getElementById('sidebar-user-avatar');
-    const nameEl = document.getElementById('sidebar-user-name');
-    const roleEl = document.getElementById('sidebar-user-role');
-    const topbarRoleEl = document.getElementById('topbar-user-role');
-
-    if (avatarEl) avatarEl.textContent = 'SF';
-    if (nameEl) nameEl.textContent = 'Symposium Portal';
-    if (roleEl) roleEl.textContent = 'Full Access';
-
-    if (topbarRoleEl) {
-      topbarRoleEl.className = 'role-pill admin';
-      topbarRoleEl.innerHTML = '<span class="badge-pulse"></span> Open Access';
-    }
-
-    // Ensure all management actions and buttons are fully visible to all users
+    // Reveal all management and action buttons globally without restrictions
     document.querySelectorAll('.admin-only').forEach(el => {
       el.style.display = '';
     });
@@ -75,13 +47,7 @@ const Auth = {
     });
   },
 
-  showLoginScreen() {
-    const loginOverlay = document.getElementById('login-overlay');
-    if (loginOverlay) loginOverlay.style.display = 'none';
-  },
-
-  hideLoginScreen() {
-    const loginOverlay = document.getElementById('login-overlay');
-    if (loginOverlay) loginOverlay.style.display = 'none';
-  }
+  showLoginScreen() {},
+  hideLoginScreen() {}
 };
+

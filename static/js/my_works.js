@@ -1,5 +1,5 @@
 /**
- * Symposium - My Works Module (Personalized tasks for logged in coordinator)
+ * SympoFlow - My Works Module (Personalized tasks for logged in coordinator)
  */
 
 const MyWorks = {
