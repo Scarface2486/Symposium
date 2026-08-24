@@ -1,14 +1,62 @@
 [
   {
-    "id": "res-brochure-9932",
-    "title": "XENO 2K26",
-    "description": "Official color symposium brochure with event tracks, rules, schedule, prizes, and contact numbers.",
-    "type": "PDF Document",
-    "file_url": "/uploads/brochure_75e12b_WhatsApp_Image_2026-08-20_at_8.34.17_PM.jpeg",
+    "file_url": "",
+    "size": "External Link",
+    "type": "Google Form",
+    "external_url": "https://forms.gle/XykE24Ahw1uJ3qBc6",
+    "id": "res-3",
+    "title": "Online Registration Google Form (Official Link)",
+    "uploaded_by": "Dr. M. Lakshmi",
+    "is_brochure": false,
+    "description": "Official Google Form registration link to register participants, select Tech/Non-Tech events, and submit registration details.",
+    "created_at": "2026-08-14T09:00:00Z"
+  },
+  {
+    "created_at": "2026-08-15T16:00:00Z",
+    "file_url": "/uploads/campus_event_map.pdf",
+    "uploaded_by": "Prof. N. Balaji",
+    "id": "res-4",
+    "type": "Important Document",
     "external_url": "",
+    "title": "Auditorium & Lab Seating Layout Map",
+    "size": "1.1 MB",
+    "description": "Floor plan highlighting emergency exits, registration counters, food counters, restrooms, and seminar halls.",
+    "is_brochure": false
+  },
+  {
+    "description": "Live web portal for external college students with countdown, event rules, online queries, and registration.",
+    "external_url": "https://symposium.sincet.edu.in",
+    "is_brochure": false,
+    "id": "res-5",
+    "title": "Symposium Official Website Portal",
+    "file_url": "",
+    "size": "External Link",
+    "created_at": "2026-08-16T10:00:00Z",
+    "uploaded_by": "Dr. T. Rajesh",
+    "type": "Important Link"
+  },
+  {
+    "description": "Official color symposium brochure with event tracks, rules, schedule, prizes, and contact numbers.",
+    "title": "XENO '26 Official Event Brochure & Schedule",
+    "id": "res-brochure-354f",
+    "is_brochure": false,
+    "file_url": "/uploads/1787584680885-962287431.jpeg",
+    "size": "435 KB",
+    "type": "PDF Document",
+    "external_url": "",
+    "created_at": "2026-08-24T15:18:00.892Z",
+    "uploaded_by": "Coordinator"
+  },
+  {
+    "uploaded_by": "Coordinator",
+    "created_at": "2026-08-24T16:37:37.847Z",
+    "external_url": "",
+    "id": "res-brochure-6e23",
+    "title": "XENO '26 Official Event Brochure & Schedule",
+    "size": "435 KB",
+    "type": "PDF Document",
+    "description": "Official color symposium brochure with event tracks, rules, schedule, prizes, and contact numbers.",
     "is_brochure": true,
-    "size": "435.1 KB",
-    "uploaded_by": "Symposium Coordinator",
-    "created_at": "2026-08-22T17:34:54.504919Z"
+    "file_url": "/uploads/1787589456684-182292777.jpeg"
   }
 ]

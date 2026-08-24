@@ -1,1 +1,134 @@
-[]
+[
+  {
+    "staff_coordinator_name": "Dr. R. Kumar",
+    "slug": "food",
+    "color": "#f59e0b",
+    "staff_coordinator_id": "coord-2",
+    "icon": "utensils",
+    "description": "Responsible for breakfast, lunch, snacks, refreshments, and dining hall arrangements for guests, staff, and participants.",
+    "created_at": "2026-08-01T10:00:00Z",
+    "name": "Food Coordinator",
+    "id": "sec-1"
+  },
+  {
+    "description": "Auditorium sound system, generator backup, classroom allocation for non-tech events, podium setup, and seating arrangement.",
+    "staff_coordinator_name": "Prof. N. Balaji",
+    "slug": "infrastructure",
+    "icon": "building",
+    "id": "sec-10",
+    "created_at": "2026-08-01T10:00:00Z",
+    "staff_coordinator_id": "coord-11",
+    "name": "Infrastructure Coordinator",
+    "color": "#475569"
+  },
+  {
+    "slug": "volunteer",
+    "color": "#d97706",
+    "icon": "users",
+    "staff_coordinator_name": "Prof. A. Saravanan",
+    "staff_coordinator_id": "coord-12",
+    "description": "Recruiting, badge allocation, shifts, and managing student volunteer duty roasters across all college event venues.",
+    "id": "sec-11",
+    "created_at": "2026-08-01T10:00:00Z",
+    "name": "Volunteer Coordinator"
+  },
+  {
+    "description": "Master of ceremonies (MC), inauguration and valedictory schedule adherence, jury scoring coordination, and prize ceremony flow.",
+    "staff_coordinator_name": "Dr. E. Vennila",
+    "color": "#0284c7",
+    "icon": "trophy",
+    "staff_coordinator_id": "coord-13",
+    "id": "sec-12",
+    "slug": "event",
+    "name": "Event Coordinator",
+    "created_at": "2026-08-01T10:00:00Z"
+  },
+  {
+    "description": "Oversees technical paper presentations, coding contests, projectors, audio/visual systems, lab setups, and internet connectivity.",
+    "staff_coordinator_name": "Prof. S. Suresh",
+    "name": "Technical Coordinator",
+    "id": "sec-2",
+    "created_at": "2026-08-01T10:00:00Z",
+    "icon": "cpu",
+    "slug": "technical",
+    "color": "#3b82f6",
+    "staff_coordinator_id": "coord-3"
+  },
+  {
+    "staff_coordinator_name": "Dr. M. Lakshmi",
+    "created_at": "2026-08-01T10:00:00Z",
+    "staff_coordinator_id": "coord-4",
+    "id": "sec-3",
+    "name": "Registration Coordinator",
+    "description": "Handles online and spot registrations, participant kit distribution, ID card issuance, and attendance verification.",
+    "icon": "clipboard-check",
+    "slug": "registration",
+    "color": "#10b981"
+  },
+  {
+    "staff_coordinator_id": "coord-5",
+    "name": "Hospitality Coordinator",
+    "id": "sec-4",
+    "slug": "hospitality",
+    "created_at": "2026-08-01T10:00:00Z",
+    "icon": "heart-handshake",
+    "staff_coordinator_name": "Prof. K. Anitha",
+    "color": "#ec4899",
+    "description": "Welcoming chief guests, VIP jury members, guest house accommodation, bouquet presentation, and memento preparation."
+  },
+  {
+    "description": "College bus route scheduling, railway/bus station pickup for external participants, driver coordination, and fuel logistics.",
+    "staff_coordinator_name": "Prof. G. Murugan",
+    "name": "Transport Coordinator",
+    "id": "sec-5",
+    "created_at": "2026-08-01T10:00:00Z",
+    "icon": "bus",
+    "slug": "transport",
+    "color": "#8b5cf6",
+    "staff_coordinator_id": "coord-6"
+  },
+  {
+    "description": "Auditorium stage backdrop design, entrance arch, banners, lighting, rangoli, flower arrangements, and visual ambiance.",
+    "slug": "decoration",
+    "color": "#14b8a6",
+    "icon": "palette",
+    "created_at": "2026-08-01T10:00:00Z",
+    "staff_coordinator_name": "Prof. V. Soundarya",
+    "staff_coordinator_id": "coord-7",
+    "id": "sec-6",
+    "name": "Decoration Coordinator"
+  },
+  {
+    "created_at": "2026-08-01T10:00:00Z",
+    "id": "sec-7",
+    "name": "Publicity Coordinator",
+    "icon": "megaphone",
+    "staff_coordinator_name": "Dr. T. Rajesh",
+    "description": "Social media promotions, poster distribution to other engineering colleges, promo videos, website updates, and press releases.",
+    "staff_coordinator_id": "coord-8",
+    "slug": "publicity",
+    "color": "#f97316"
+  },
+  {
+    "staff_coordinator_name": "Prof. D. Kavitha",
+    "description": "Photography, videography, certificate printing, winner list compile, symposium report preparation, and press release draft.",
+    "slug": "documentation",
+    "icon": "file-text",
+    "name": "Documentation Coordinator",
+    "staff_coordinator_id": "coord-9",
+    "color": "#6366f1",
+    "id": "sec-8",
+    "created_at": "2026-08-01T10:00:00Z"
+  },
+  {
+    "description": "Budget management, sponsorship tracking, expense voucher verification, cash prize distribution, and audit documentation.",
+    "staff_coordinator_name": "Dr. P. Natarajan",
+    "staff_coordinator_id": "coord-10",
+    "created_at": "2026-08-01T10:00:00Z",
+    "slug": "finance",
+    "icon": "wallet",
+    "id": "sec-9",
+    "name": "Finance Coordinator",
+    "color": "#059669"
+  }
+]

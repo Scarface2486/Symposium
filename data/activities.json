@@ -1,38 +1,128 @@
 [
   {
-    "id": "act-f15056fb",
-    "user_name": "Symposium Coordinator",
-    "role": "Admin",
-    "action": "Removed sector fgf",
-    "target": "Sector Management",
-    "sector": "fgf",
-    "timestamp": "2026-08-22T17:51:58.088210Z"
-  },
-  {
-    "id": "act-55f0e6ce",
-    "user_name": "Symposium Coordinator",
-    "role": "Admin",
-    "action": "Created new sector: fgf",
-    "target": "Sector Management",
-    "sector": "fgf",
-    "timestamp": "2026-08-22T17:51:49.875618Z"
-  },
-  {
-    "id": "act-3e4a42f1",
-    "user_name": "Symposium Coordinator",
-    "role": "Admin",
+    "target": "XENO '26 Official Event Brochure & Schedule",
     "action": "Uploaded and replaced Symposium Brochure",
-    "target": "XENO 2K26",
     "sector": "Resources",
-    "timestamp": "2026-08-22T17:34:54.510351Z"
+    "user_name": "Portal",
+    "id": "act-tacr6gwz",
+    "role": "Coordinator",
+    "timestamp": "2026-08-24T16:37:38.085Z"
   },
   {
-    "id": "act-55b31ec2",
-    "user_name": "Symposium Coordinator",
+    "sector": "General",
+    "id": "act-zumz65t3",
+    "action": "Added coordinator qwertyuiop",
+    "target": "Role: Student Coordinator",
+    "user_name": "qwertyuiop",
+    "role": "Student Coordinator",
+    "timestamp": "2026-08-24T16:36:48.193Z"
+  },
+  {
+    "sector": "General",
+    "action": "Added coordinator Vishva Sivaprakash",
+    "target": "Role: Student Coordinator",
+    "user_name": "Vishva Sivaprakash",
+    "role": "Student Coordinator",
+    "timestamp": "2026-08-24T16:36:25.710Z",
+    "id": "act-gjlnx5b7"
+  },
+  {
+    "id": "act-p7wotxw6",
+    "timestamp": "2026-08-24T16:28:55.029Z",
+    "role": "Student Coordinator",
+    "sector": "General",
+    "user_name": "sdfghj",
+    "action": "Added coordinator sdfghj",
+    "target": "Role: Student Coordinator"
+  },
+  {
+    "user_name": "Vishva",
+    "target": "Role: Student Coordinator",
+    "action": "Added coordinator Vishva",
+    "id": "act-qqohlwzy",
+    "role": "Student Coordinator",
+    "sector": "General",
+    "timestamp": "2026-08-24T15:43:48.880Z"
+  },
+  {
+    "id": "act-df4d57m2",
+    "timestamp": "2026-08-24T15:37:51.920Z",
+    "action": "Deleted resource: Technical Paper Presentation Guidelines & Rulebook",
+    "target": "Type: PDF Document",
+    "role": "Coordinator",
+    "sector": "Resources",
+    "user_name": "Portal"
+  },
+  {
+    "timestamp": "2026-08-24T15:37:50.568Z",
+    "role": "Coordinator",
+    "id": "act-e47f6y7t",
+    "sector": "Resources",
+    "user_name": "Portal",
+    "target": "Type: Image Poster",
+    "action": "Deleted resource: XENO 2K26 Official Event Brochure & Poster"
+  },
+  {
+    "role": "Coordinator",
+    "sector": "Resources",
+    "timestamp": "2026-08-24T15:37:50.529Z",
+    "action": "Deleted resource: XENO 2K26 Official Event Brochure & Poster",
+    "target": "Type: Image Poster",
+    "id": "act-yxy2v9ug",
+    "user_name": "Portal"
+  },
+  {
+    "user_name": "Portal",
+    "id": "act-a4894278",
+    "role": "Coordinator",
+    "timestamp": "2026-08-24T15:18:00.892Z",
+    "sector": "Resources",
+    "action": "Uploaded and replaced Symposium Brochure",
+    "target": "XENO '26 Official Event Brochure & Schedule"
+  },
+  {
+    "user_name": "K. Dinesh",
+    "id": "act-3",
+    "sector": "Transport Coordinator",
+    "timestamp": "2026-08-22T08:30:00Z",
+    "target": "Coordinate College Buses from Railway Stations & Bus Stands",
+    "action": "Marked as completed",
+    "role": "Student Coordinator"
+  },
+  {
+    "role": "Student Coordinator",
+    "sector": "Volunteer Coordinator",
+    "user_name": "R. Sanjay",
+    "target": "Deploy 40 Student Volunteers with Duty Badges",
+    "action": "Completed work",
+    "id": "act-1",
+    "timestamp": "2026-08-22T08:00:00Z"
+  },
+  {
+    "role": "Student Coordinator",
+    "user_name": "M. Vignesh",
+    "action": "Updated progress note on",
+    "target": "Prepare Projectors & Audio Systems in 4 Presentation Halls",
+    "sector": "Technical Coordinator",
+    "id": "act-2",
+    "timestamp": "2026-08-22T08:00:00Z"
+  },
+  {
+    "user_name": "Dr. R. Kumar",
+    "role": "Staff Coordinator",
+    "id": "act-4",
+    "timestamp": "2026-08-18T10:00:00Z",
+    "target": "Arrange Lunch & Dining Hall Setup",
+    "action": "Assigned new work to Arun Kumar",
+    "sector": "Food Coordinator"
+  },
+  {
+    "id": "act-5",
+    "user_name": "Dr. S. Karthikeyan",
+    "target": "Symposium Official Brochure & Event Schedule (PDF)",
+    "action": "Uploaded new document",
     "role": "Admin",
-    "action": "Updated symposium settings and configuration",
-    "target": "System Settings",
-    "sector": "Settings",
-    "timestamp": "2026-08-22T17:34:12.100881Z"
+    "sector": "All Sectors",
+    "timestamp": "2026-08-10T10:00:00Z"
   }
 ]

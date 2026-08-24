@@ -1,11 +1,15 @@
 {
-  "college_name": "SIR ISSAC NEWTON COLLEGE OF ENGINEERING AND TECHNOLOGY",
+  "venue": "Main Auditorium, SINCET Campus",
+  "college_name": "Sir Issac Newton College of Engineering and Technology",
+  "emergency_helpline": "+91 8807722484",
+  "event_date": "2026-09-12",
+  "college_short": "SINCET",
   "symposium_name": "XENO 2K26",
-  "symposium_theme": "National Level Technical Symposium",
-  "event_date": "2026-09-09",
-  "venue": "Auditorium",
-  "contact_email": "",
-  "emergency_helpline": "",
-  "brochure_title": "XENO 2K26",
-  "brochure_file": "/uploads/brochure_75e12b_WhatsApp_Image_2026-08-20_at_8.34.17_PM.jpeg"
+  "registration_url": "https://forms.gle/XykE24Ahw1uJ3qBc6",
+  "registration_status": "Open",
+  "registration_deadline": "2026-09-07",
+  "symposium_theme": "National Level Technical Symposium – Dept of CSE, AI&DS, IT, CSE(AIML)",
+  "contact_email": "symposium@sincet.edu.in",
+  "brochure_title": "XENO '26 Official Event Brochure & Schedule",
+  "brochure_file": "/uploads/1787589456684-182292777.jpeg"
 }

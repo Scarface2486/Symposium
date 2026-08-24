@@ -1,1 +1,68 @@
-[]
+[
+  {
+    "id": "usr-1",
+    "coordinator_id": "coord-1",
+    "email": "admin@sincet.edu.in",
+    "password_hash": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+    "plain_hint": "admin123",
+    "role": "Admin",
+    "name": "Dr. S. Karthikeyan",
+    "department": "Computer Science & Engineering",
+    "sector_id": "all"
+  },
+  {
+    "id": "usr-2",
+    "coordinator_id": "coord-2",
+    "email": "kumar.staff@sincet.edu.in",
+    "password_hash": "6b3602f3780362f6b864a7dc5fba45c556ee0e4fa9c4fbcc4b4a6fb7fa7e9ff0",
+    "plain_hint": "staff123",
+    "role": "Staff Coordinator",
+    "name": "Dr. R. Kumar",
+    "department": "Mechanical Engineering",
+    "sector_id": "sec-1"
+  },
+  {
+    "id": "usr-3",
+    "coordinator_id": "coord-3",
+    "email": "suresh.staff@sincet.edu.in",
+    "password_hash": "6b3602f3780362f6b864a7dc5fba45c556ee0e4fa9c4fbcc4b4a6fb7fa7e9ff0",
+    "plain_hint": "staff123",
+    "role": "Staff Coordinator",
+    "name": "Prof. S. Suresh",
+    "department": "Computer Science & Engineering",
+    "sector_id": "sec-2"
+  },
+  {
+    "id": "usr-4",
+    "coordinator_id": "coord-14",
+    "email": "arun.student@sincet.edu.in",
+    "password_hash": "a4055272a2e88a08d27d75a895b6a71e16fdf94291122a27ea80fef8b89c628e",
+    "plain_hint": "student123",
+    "role": "Student Coordinator",
+    "name": "Arun Kumar",
+    "department": "Computer Science & Engineering",
+    "sector_id": "sec-1"
+  },
+  {
+    "id": "usr-5",
+    "coordinator_id": "coord-15",
+    "email": "vishva.student@sincet.edu.in",
+    "password_hash": "a4055272a2e88a08d27d75a895b6a71e16fdf94291122a27ea80fef8b89c628e",
+    "plain_hint": "student123",
+    "role": "Student Coordinator",
+    "name": "Vishva S",
+    "department": "Information Technology",
+    "sector_id": "sec-1"
+  },
+  {
+    "id": "usr-6",
+    "coordinator_id": "coord-17",
+    "email": "vignesh.student@sincet.edu.in",
+    "password_hash": "a4055272a2e88a08d27d75a895b6a71e16fdf94291122a27ea80fef8b89c628e",
+    "plain_hint": "student123",
+    "role": "Student Coordinator",
+    "name": "M. Vignesh",
+    "department": "Computer Science & Engineering",
+    "sector_id": "sec-2"
+  }
+]
