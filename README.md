@@ -1,4 +1,4 @@
-# SympoFlow – Symposium Coordinator Management Portal
+# Symposium Coordinator Management Portal
 
 **Institution:** Sir Issac Newton College of Engineering and Technology  
 **Symposium:** XENO 2026 – National Level Technical Symposium  
